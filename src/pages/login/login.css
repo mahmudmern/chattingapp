@@ -1,0 +1,114 @@
+.loginbox{
+    width: 100%;
+    height: 100vh;
+    background-color: pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.loginbox_inner{
+    width: 378px;
+}
+.loginimg{
+    width: 100%;
+    height: 100vh;
+}
+.log_heading{
+    color: #03014C;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 33.344px;
+    font-weight: 700;
+    line-height: normal;
+}
+.provider_login{
+    border: 1px solid #03014C;
+    border-radius: 8px;
+    padding: 20px 30px;
+    display: inline-flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 30px;
+}
+.provider_login span{
+  color: #03014C;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.267px;
+}
+.loginbox .form_main{
+    margin-top: 30px;
+}
+.form_main{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.login_input_filed{
+    width: 100%;
+}
+.loginbtn{
+    background-color: #5F34F5 !important;
+    color: red;
+    padding: 15px 0 !important;
+    font-family: "Open Sans";
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 8px !important;
+    text-transform: capitalize !important;
+}
+.loginauth{
+    color: #03014C;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+.loginauth a,.loginauth span{
+    color: #EA6C00;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: capitalize;
+    padding-left: 8px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.loginimg img{
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+.regiimg{
+    width: 100%;
+    height: 100vh;
+}
+.regiimg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+ }
+.forgot_box{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: #03014C;
+}
+.forgot_box h2{
+    margin-bottom: 0px;
+}
+.error{
+    background-color: black;
+    color: #fff;
+    padding: 8px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    text-transform: capitalize;
+}
