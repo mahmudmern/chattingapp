@@ -49,13 +49,6 @@ ul,ol{
     height: 350px;
     overflow-y: scroll;
 }
- /* margin-top: 17px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        height: 350px;
-        overflow-y: scroll; */
-
 .usermainbox::-webkit-scrollbar{
     width: 5px;
 }
@@ -133,4 +126,15 @@ ul,ol{
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
+}
+.icondiv{
+    position: relative;
+}
+.showeye svg{
+    font-size: 20px;
+}
+.showeye{
+    position: absolute;
+    top: 20px;
+    right: 100px;
 }

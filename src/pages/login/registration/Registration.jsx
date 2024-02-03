@@ -5,15 +5,17 @@ import Input from '../../../components/Input'
 import CustomButton from '../../../components/CustomButton'
 import AuthNavigate from '../../../components/AuthNavigate'
 import Images from '../../../utils/Images'
-import RegiImg from './RegiImg'
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification,updateProfile } from "firebase/auth";
 import { ColorRing } from 'react-loader-spinner'
 import { useNavigate } from "react-router-dom";
+import RegiImg from "../../../assets/images/registation.jpg"
 import Login from '../Login'
+import { getDatabase, ref, set } from "firebase/database";
 
 
 
 const Registration = () => {
+  const db = getDatabase();
   const auth = getAuth();
   const navigate = useNavigate();
   const [loder,setLoder] = useState(false)
@@ -60,7 +62,21 @@ const Registration = () => {
       createUserWithEmailAndPassword(auth, signupData.email, signupData.password).then((userCredential)=>{
         sendEmailVerification (auth.currentUser).then(()=>{
           //console.log("send email");
-          navigate("/")
+          updateProfile(auth.currentUser, {
+            displayName: signupData.fullname,
+            photoURL: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png"
+          }).then(()=>{
+            set(ref(db, 'users/' + userCredential.user.uid), {
+              username: userCredential.user.displayName,
+              email: userCredential.user.email,
+              profileimg: userCredential.user.photoURL
+            }).then(()=>{
+              navigate("/")
+              console.log(userCredential);
+            })
+            
+          })
+          
         });
       }).catch((error) => {
         const errorCode = error.code;
@@ -130,7 +146,7 @@ const Registration = () => {
         </Grid>
         <Grid item xs={6}>
         <div className='regiimg'>
-          {/* <Images source={RegiImg} alt="img"/> */}
+          <Images source={RegiImg} alt="img"/>
         </div>
         </Grid>
         </Grid>

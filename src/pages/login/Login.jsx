@@ -15,17 +15,24 @@ import { useNavigate } from "react-router-dom";
 import loginImg from '../../assets/images/profile.jpg';
 import Images from '../../utils/Images';
 import { Modal, Typography } from '@mui/material';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import styledEngineSc from '@mui/styled-engine-sc';
+import { FaEye,FaEyeSlash } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux'
+import { loginuser } from '../../slices/userSlice';
 
 
 
 
 const Login = () => {
+
   const navigate = useNavigate();
   const auth = getAuth();
+  const dispatch = useDispatch();
 
   let emailregex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  
   let [passShow, setPassShow] = useState(false)
 
   const [open, setOpen] = React.useState(false);
@@ -65,13 +72,15 @@ const Login = () => {
       signInWithEmailAndPassword(auth, formData.email, formData.password).then((userCredential)=>{
           // console.log(userCredential);
           if(userCredential.user.emailVerified){
+            localStorage.setItem("user",JSON.stringify(userCredential.user))
+            dispatch(loginuser(userCredential.user))
               navigate("/home")
               console.log(userCredential.user);
           }else{
             signOut(auth).then(()=>{
-              toast.error('Please Verify your email', {
-                position: "top-right",
-                autoClose: 3000,
+              toast.error('please verify your email!', {
+                position: "top-center",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -79,8 +88,8 @@ const Login = () => {
                 progress: undefined,
                 theme: "dark",
                 });
-              // console.log("please verify your email")
-              // console.log("logout done")
+            // console.log("please verify your email")
+            // console.log("logout done")
           })
           }
       }).catch((error) => {
@@ -131,6 +140,18 @@ const Login = () => {
 
   return (
     <>
+    <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
         <Modal
           open={open}
           onClose={handleClose}
@@ -168,9 +189,12 @@ const Login = () => {
                           <Alert severity="error">{error.email}</Alert>
                         }
                       </div>
-                      <div>
+                      <div className='icondiv'>
                         <Input onChange={handleLoginForm} name="password" type={passShow ? "text" : "password"} variant="standard" labeltext="Password" style="login_input_field"/>
-                        <button onClick={()=>setPassShow(!passShow)}>Show</button>
+                          <div className='showeye' onClick={()=>setPassShow(!passShow)}>
+                            {passShow ? <FaEye />: <FaEyeSlash />}
+                          </div>
+                        {/* <button onClick={()=>setPassShow(!passShow)}>{passShow ? <FaEye />: <FaEyeSlash />}</button> */}
                         {error.password &&
                           <Alert severity="error">{error.password}</Alert>
                         }
