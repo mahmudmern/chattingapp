@@ -42,10 +42,8 @@ const Sideber = () => {
 
    let handleLogout = () =>{
       signOut(auth).then(()=>{
-         // ajkr kaj
          localStorage.removeItem("user")
          dispatch(loginuser(null)) 
-         // ajkr kaj ses
           navigate("/")
          toast.success('🦄 logout seccess!', {
             position: "top-center",

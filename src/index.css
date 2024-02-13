@@ -138,3 +138,7 @@ ul,ol{
     top: 20px;
     right: 100px;
 }
+.buttongroup{
+    display: flex;
+    gap: 5px;
+}
