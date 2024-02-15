@@ -15,7 +15,7 @@ const FriendsRequest = () => {
  
 
   useEffect (() =>{
-    const fRequestRef = ref(db, 'friendrequest');
+    const fRequestRef = ref(db, 'frequestinfo');
     onValue(fRequestRef, (snapshot) => {
     let arr = []
     snapshot.forEach((item) =>{
@@ -31,8 +31,8 @@ const FriendsRequest = () => {
   // console.log(fRequest);
 
  let handleCFRequest = (cencelinfo)=>{
-  console.log(cencelinfo);
-  remove(ref(db, "friendrequest/" + cencelinfo.id)).then(()=>{
+  //console.log(cencelinfo);
+  remove(ref(db, "frequestinfo/" + cencelinfo.id)).then(()=>{
     toast("Request Cencel")
   })
  }
