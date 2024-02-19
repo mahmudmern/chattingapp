@@ -10,10 +10,11 @@ const UserList = () => {
   const [userList, setUserList] = useState()
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value)
-  console.log(data);
+  const [fRequest, setfRequest] = useState()
+  //console.log(data);
   
 
-
+//user data
   useEffect (() =>{
     const userRef = ref(db, 'users');
     onValue(userRef, (snapshot) => {
@@ -27,7 +28,9 @@ const UserList = () => {
     setUserList(arr)
   })
   },[])
+  //console.log(userList);
 
+  //add friend operation
   let handleFRequest = (frequestinfo)=>{
     //console.log(frequestinfo);
     set(push(ref(db, "frequestinfo")),{
@@ -54,7 +57,27 @@ const UserList = () => {
         });
     })
   }
- 
+
+  //cencel request
+  useEffect (() =>{
+    const fRequestRef = ref(db, 'frequestinfo');
+    onValue(fRequestRef, (snapshot) => {
+    let arr = []
+    snapshot.forEach((item) =>{
+      if(data.uid == item.val().senderid){ 
+        arr.push(item.val().senderid + item.val().receiverid)
+      }
+      
+    })
+    setfRequest(arr)
+  });
+  
+  },[])
+  //console.log(fRequest);
+
+  let handleCancle = (i) => {
+    console.log(i.id);
+  }
   return (
     <>
     <ToastContainer
@@ -83,9 +106,16 @@ const UserList = () => {
                      <h3>{item.username}</h3>
                     <p>mern devoloper</p>
                 </div>
-                <button onClick={()=>handleFRequest(item)} className='addbutton'>
-                   <TiPlus />
-                </button>
+                {fRequest &&
+                      fRequest.includes(item.id + data.uid) || fRequest.includes(data.uid + item.id)
+                      ?
+                      <button onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
+                      :
+                      <button onClick={()=>handleFRequest(item)} className='addbutton'>
+                        add
+                      </button>
+                }
+                
              </div>
             </div>
             ))

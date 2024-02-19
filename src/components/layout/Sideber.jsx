@@ -10,11 +10,28 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux'
 import { loginuser } from '../../slices/userSlice';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { GrUploadOption } from "react-icons/gr";
+
+
+
+const style = {
+   position: 'absolute',
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
+   width: 400,
+   bgcolor: 'background.paper',
+   border: '2px solid #000',
+   boxShadow: 24,
+   p: 4,
+ };
 
 
 const Sideber = () => {
-
-
    const data = useSelector((state) => state.loginuserdata.value)
    // console.log(data.email);
    // console.log(data.displayName);
@@ -26,18 +43,25 @@ const Sideber = () => {
    const dispatch = useDispatch();
 
 
+   const [open, setOpen] = React.useState(false);
+   const handleOpen = () => setOpen(true);
+   const handleClose = () => setOpen(false);
+
+
    useEffect(()=>{
     if(!data){
      navigate("/")
+    }else{ 
+      navigate("/home")
     }
    },[])
 
 
-   useEffect(()=>{
-    if(data){
-     navigate("/home")
-    }
-   },[])
+   // useEffect(()=>{
+   //  if(data){
+   //   navigate("/home")
+   //  }
+   // },[])
 
 
    let handleLogout = () =>{
@@ -64,6 +88,20 @@ const Sideber = () => {
    
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <h2>Upload Profile</h2>
+          <div className='img_holder'>
+             <Images source={data && data.photoURL} alt="img"/>
+          </div>
+          <input type="file" />
+        </Box>
+      </Modal>
           <ToastContainer
             position="top-center"
             autoClose={2000}
@@ -79,7 +117,8 @@ const Sideber = () => {
          <div className='SideberBox'>
          <div>
             <div className='img_box'>
-               <Images source={data && data.photoURL} alt="img"/>     
+               <Images source={data && data.photoURL} alt="img"/>
+               <div onClick={handleOpen} className='overlay'><GrUploadOption /></div>   
             </div>
              <h3 className='username'>{data && data.displayName}</h3>
              <p>{data && data.email}</p>

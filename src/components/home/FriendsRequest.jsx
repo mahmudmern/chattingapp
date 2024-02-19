@@ -5,11 +5,14 @@ import { getDatabase, ref, onValue, set, push, remove, } from "firebase/database
 import { useSelector, useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 
+
+
+
 const FriendsRequest = () => {
 
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value)
-  console.log(data);
+  //console.log(data);
   const [fRequest, setfRequest] = useState()
 
  
@@ -36,6 +39,36 @@ const FriendsRequest = () => {
     toast("Request Cencel")
   })
  }
+
+
+ let handleAFRequest = (acceptinfo) =>{
+  console.log(acceptinfo);
+  set(push(ref(db, "friends")),{
+    //sender info
+    whosendname: acceptinfo.sendername,
+    whosendid: acceptinfo.senderid,
+    whosendemail: acceptinfo.senderemail,
+    whosendphoto: acceptinfo.senderimg,
+    //receiver info
+    whoreceivename: data.displayName,
+    whoreciveid: data.uid,
+    whoreceiveemail: data.email,
+    whoreceivephoto: data.photoURL
+  }).then(()=>{
+    remove(ref(db, "frequestinfo/" + acceptinfo.id))
+    toast.success('accept request', {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  })
+}
+ 
   return (
     <>
     <ToastContainer/>
@@ -53,7 +86,7 @@ const FriendsRequest = () => {
                   <p>mern devoloper</p>
                 </div>
 
-                <div className='buttongroup'>
+                <div onClick={()=>handleAFRequest(item)} className='buttongroup'>
                 <button className='addbutton'>
                   Accept
                 </button>
