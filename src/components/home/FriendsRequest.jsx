@@ -36,7 +36,7 @@ const FriendsRequest = () => {
  let handleCFRequest = (cencelinfo)=>{
   //console.log(cencelinfo);
   remove(ref(db, "frequestinfo/" + cencelinfo.id)).then(()=>{
-    toast("Request Cencel")
+    //toast("Request Cencel")
   })
  }
 
@@ -49,6 +49,7 @@ const FriendsRequest = () => {
     whosendid: acceptinfo.senderid,
     whosendemail: acceptinfo.senderemail,
     whosendphoto: acceptinfo.senderimg,
+    
     //receiver info
     whoreceivename: data.displayName,
     whoreciveid: data.uid,
@@ -56,16 +57,16 @@ const FriendsRequest = () => {
     whoreceivephoto: data.photoURL
   }).then(()=>{
     remove(ref(db, "frequestinfo/" + acceptinfo.id))
-    toast.success('accept request', {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      });
+    // toast.success('accept request', {
+    //   position: "top-center",
+    //   autoClose: 2000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "colored",
+    //   });
   })
 }
  

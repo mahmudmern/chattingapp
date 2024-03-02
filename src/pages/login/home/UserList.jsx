@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import GroupCard from '../../../components/home/GroupCard'
 import Images from '../../../utils/Images'
 import { TiPlus } from 'react-icons/ti'
-import { getDatabase, ref, onValue, set, push,  } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove,  } from "firebase/database";
 import { useSelector, useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -10,7 +10,9 @@ const UserList = () => {
   const [userList, setUserList] = useState()
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value)
-  const [fRequest, setfRequest] = useState()
+  const [fRequest, setfRequest] = useState([])
+  const [friendList, setFriendList] = useState([])
+
   //console.log(data);
   
 
@@ -30,19 +32,21 @@ const UserList = () => {
   },[])
   //console.log(userList);
 
+
+
   //add friend operation
   let handleFRequest = (frequestinfo)=>{
     //console.log(frequestinfo);
-    set(push(ref(db, "frequestinfo")),{
+    set(ref(db, "frequestinfo/" + frequestinfo.id),{
       senderid: data.uid,
       sendername: data.displayName,
       senderimg: data.photoURL,
       senderemail: data.email,
 
-      receiverid:frequestinfo.id,
-      receivername:frequestinfo.username,
-      receiverimg:frequestinfo.profileimg,
-      receiveremail:frequestinfo.email,
+      receiverid: frequestinfo.id,
+      receivername: frequestinfo.username,
+      receiverimg: frequestinfo.profileimg,
+      receiveremail: frequestinfo.email,
 
     }).then(()=>{
       toast.success('Request Send', {
@@ -57,8 +61,42 @@ const UserList = () => {
         });
     })
   }
+  
 
-  //cencel request
+
+//friends request data 
+useEffect (() =>{
+  const fRequestRef = ref(db, 'frequestinfo');
+  onValue(fRequestRef, (snapshot) => {
+  let arr = []
+  snapshot.forEach((item) =>{
+    if(data.uid == item.val().receiverid){ 
+      arr.push({...item.val(),id:item.key})
+    }
+    
+  })
+  setfRequest(arr)
+});
+
+},[])
+
+
+//friend data
+useEffect(() =>{
+  const friendRef = ref(db, 'friends');
+  onValue(friendRef, (snapshot) => {
+  let arr = []
+  snapshot.forEach((item) =>{
+    if(data.uid == item.val().whoreciveid){
+      arr.push({...item.val(),id:item.key})
+    }
+    
+  })
+  setFriendList(arr)
+})
+},[])
+
+  // cencel request
   useEffect (() =>{
     const fRequestRef = ref(db, 'frequestinfo');
     onValue(fRequestRef, (snapshot) => {
@@ -76,8 +114,13 @@ const UserList = () => {
   //console.log(fRequest);
 
   let handleCancle = (i) => {
-    console.log(i.id);
+    //console.log(i.id);
+    remove(ref(db, "frequestinfo/" + i.id)).then(()=>{
+       toast("Request Cencel")
+    })
   }
+
+  console.log(fRequest);
   return (
     <>
     <ToastContainer
@@ -106,16 +149,21 @@ const UserList = () => {
                      <h3>{item.username}</h3>
                     <p>mern devoloper</p>
                 </div>
-                {fRequest &&
-                      fRequest.includes(item.id + data.uid) || fRequest.includes(data.uid + item.id)
+                { 
+                      fRequest.length > 0 && fRequest.includes(item.id + data.uid) || fRequest.includes(data.uid + item.id)
+                      ?<>
+                        <button className='addbutton'>pending</button>
+                        <button onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
+                      </>
+                      :
+                      friendList.includes(item.id + data.uid) || friendList.includes(data.uid + item.id)
                       ?
-                      <button onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
+                      <button className='addbutton'>friend</button>
                       :
                       <button onClick={()=>handleFRequest(item)} className='addbutton'>
                         add
                       </button>
-                }
-                
+                } 
              </div>
             </div>
             ))

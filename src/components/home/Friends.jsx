@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import GroupCard from './GroupCard'
 import Images from '../../utils/Images'
 import { TiPlus } from 'react-icons/ti'
-import { getDatabase, ref, onValue, set, push,  } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove,  } from "firebase/database";
 import { useSelector, useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -24,7 +24,32 @@ const Friends = () => {
     setFriendList(arr)
   })
   },[])
-   console.log(friendList);
+   //console.log(friendList);
+
+
+   //block information
+   let handleBlock = (blockinfo) =>{
+    console.log(blockinfo);
+    set(push(ref(db, "block")),{
+      whoblockid: data.uid,
+      whoblockname: data.displayName,
+      whoblockemail: data.email,
+      whoblockimg: data.photoURL,
+
+      // blockid: blockinfo.whoreciveid,
+      // blockemail: blockinfo.whoreceiveemail,
+      // blockname: blockinfo.whoreceivename,
+      // blockimg: blockinfo.whoreceivephoto,
+      
+      blockid: blockinfo.whosendid,
+      blockemail: blockinfo.whosendemail,
+      blockname: blockinfo.whosendname,
+      blockimg: blockinfo.whosendphoto,
+      
+    }).then(()=>{
+      remove(ref(db, "friends/" + blockinfo.id))
+    })
+   }
   return (
     <>
     <GroupCard cardtitle="friends">
@@ -44,7 +69,7 @@ const Friends = () => {
                   }
                    <p>mern devoloper</p>
                 </div>
-                <button className='addbutton'>
+                <button onClick={()=>handleBlock(item)} className='addbutton'>
                   Block
                 </button>
               </div>
