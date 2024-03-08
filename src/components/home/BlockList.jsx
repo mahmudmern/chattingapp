@@ -22,7 +22,7 @@ const BlockList = () => {
     setBlockList(arr)
   })
   },[])
-  console.log(blockList);
+  //console.log(blockList);
   return (
     <>
         <GroupCard cardtitle="Block List">

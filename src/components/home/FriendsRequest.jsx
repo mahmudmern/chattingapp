@@ -31,7 +31,7 @@ const FriendsRequest = () => {
   });
   
   },[])
-  // console.log(fRequest);
+   //console.log(fRequest);
 
  let handleCFRequest = (cencelinfo)=>{
   //console.log(cencelinfo);
@@ -42,7 +42,7 @@ const FriendsRequest = () => {
 
 
  let handleAFRequest = (acceptinfo) =>{
-  console.log(acceptinfo);
+  //console.log(acceptinfo);
   set(push(ref(db, "friends")),{
     //sender info
     whosendname: acceptinfo.sendername,
@@ -87,23 +87,20 @@ const FriendsRequest = () => {
                   <p>mern devoloper</p>
                 </div>
 
-                <div onClick={()=>handleAFRequest(item)} className='buttongroup'>
-                <button className='addbutton'>
+                <div className='buttongroup'>
+                <button onClick={()=>handleAFRequest(item)} className='addbutton'>
                   Accept
                 </button>
                 <button onClick={()=>handleCFRequest(item)} className='addbutton'>
                   cencel
                 </button>
                 </div> 
-
               </div>
             </div>  
            ))
            :
            <h2>No Request</h2>
            } 
-             
-          
         </div>
       </GroupCard>
     </>

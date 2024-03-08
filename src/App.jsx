@@ -8,9 +8,9 @@ import Login from "./pages/login/Login";
 import Registration from "./pages/login/registration/Registration";
 import RootLayout from "./components/layout/RootLayout";
 import Home from "./pages/login/home/Home";
-import Message from "./pages/login/message/message";
 import Notification from "./pages/login/notification/Notification";
 import Setting from "./pages/login/setting/Setting";
+import Message from "./pages/login/message/Message";
 
 
 

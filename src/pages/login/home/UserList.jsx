@@ -70,8 +70,8 @@ useEffect (() =>{
   onValue(fRequestRef, (snapshot) => {
   let arr = []
   snapshot.forEach((item) =>{
-    if(data.uid == item.val().receiverid){ 
-      arr.push({...item.val(),id:item.key})
+    if(item.val().senderid == data.uid){ 
+      arr.push(item.val().receiverid + item.val().senderid)
     }
     
   })
@@ -83,12 +83,12 @@ useEffect (() =>{
 
 //friend data
 useEffect(() =>{
-  const friendRef = ref(db, 'friends');
-  onValue(friendRef, (snapshot) => {
+  const friendsRef = ref(db, 'friends');
+  onValue(friendsRef, (snapshot) => {
   let arr = []
   snapshot.forEach((item) =>{
-    if(data.uid == item.val().whoreciveid){
-      arr.push({...item.val(),id:item.key})
+    if(item.val().whoreceiveid == data.uid || item.val().whosendid == data.uid){
+      arr.push(item.val().whoreceiveid + item.val().whosendid)
     }
     
   })
@@ -96,31 +96,31 @@ useEffect(() =>{
 })
 },[])
 
-  // cencel request
-  useEffect (() =>{
-    const fRequestRef = ref(db, 'frequestinfo');
-    onValue(fRequestRef, (snapshot) => {
-    let arr = []
-    snapshot.forEach((item) =>{
-      if(data.uid == item.val().senderid){ 
-        arr.push(item.val().senderid + item.val().receiverid)
-      }
-      
-    })
-    setfRequest(arr)
-  });
   
-  },[])
+  // useEffect (() =>{
+  //   const fRequestRef = ref(db, 'frequestinfo');
+  //   onValue(fRequestRef, (snapshot) => {
+  //   let arr = []
+  //   snapshot.forEach((item) =>{
+  //     if(item.val().whoreceiveid == data.uid || item.val().whosendid == data.uid){
+  //       arr.push(item.val().whoreceiveid + item.val().whosendid)
+  //     }
+      
+  //   })
+  //   setfRequest(arr)
+  // });
+  
+  // },[])
   //console.log(fRequest);
 
   let handleCancle = (i) => {
     //console.log(i.id);
     remove(ref(db, "frequestinfo/" + i.id)).then(()=>{
-       toast("Request Cencel")
+       //toast("Request Cencel")
     })
   }
 
-  console.log(fRequest);
+  //console.log(fRequest);
   return (
     <>
     <ToastContainer
@@ -145,9 +145,9 @@ useEffect(() =>{
                   <Images source ={item.profileimg} alt="img"/>
                  </div>
               <div className='userinfo'>
-                <div className='username'>
+                <div>
                      <h3>{item.username}</h3>
-                    <p>mern devoloper</p>
+                     <p>mern devoloper</p>
                 </div>
                 { 
                       fRequest.length > 0 && fRequest.includes(item.id + data.uid) || fRequest.includes(data.uid + item.id)
