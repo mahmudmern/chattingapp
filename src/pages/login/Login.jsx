@@ -14,8 +14,8 @@ import AuthNavigate from '../../components/AuthNavigate';
 import { useNavigate } from "react-router-dom";
 import loginImg from '../../assets/images/profile.jpg';
 import Images from '../../utils/Images';
-import { Modal, Typography } from '@mui/material';
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { Alert, Modal, Typography } from '@mui/material';
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup,GoogleAuthProvider } from "firebase/auth";
 import styledEngineSc from '@mui/styled-engine-sc';
 import { FaEye,FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,6 +30,23 @@ const Login = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const dispatch = useDispatch();
+  const provider = new GoogleAuthProvider();
+
+
+
+  let handleGoogleAuth = ()=>{
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+    }); 
+  }
 
   let emailregex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   
@@ -75,12 +92,12 @@ const Login = () => {
             localStorage.setItem("user",JSON.stringify(userCredential.user))
             dispatch(loginuser(userCredential.user))
               navigate("/home")
-              console.log(userCredential.user);
+              //console.log(userCredential.user);
           }else{
             signOut(auth).then(()=>{
               toast.error('please verify your email!', {
                 position: "top-center",
-                autoClose: 2000,
+                autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -125,15 +142,23 @@ const Login = () => {
   }
 
   let handleForgetSubmit = () => {
-    console.log(forgetformData);
+    // console.log(forgetformData);
     if(!forgetformData.forgetemail){
-      setforgetError({forgetemail: "forget email ny"});
+      setforgetError({forgetemail: "email ny"});
     }
     else if(!forgetformData.forgetemail.match(emailregex)){
       setforgetError({forgetemail: "email format thik ny"});
     }else{
       setforgetError({forgetemail: ""})
-      console.log(forgetformData);
+      //console.log(forgetformData);
+      sendPasswordResetEmail(auth, forgetformData.forgetemail)
+        .then(() => {
+          console.log("email sent successfully..");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
     }
   }
 
@@ -142,7 +167,7 @@ const Login = () => {
     <>
     <ToastContainer
       position="top-center"
-      autoClose={5000}
+      autoClose={2000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
@@ -152,14 +177,15 @@ const Login = () => {
       pauseOnHover
       theme="dark"
     />
-        <Modal
+    <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={styledEngineSc}>
-            <button onClick={handleModalClose}>Close</button>
+            <div className='forgot_main_box'>
+            <button onClick={handleModalClose} className='close_btn'>Close</button>
             <div className='forgot_box'>
               <h2>Forgot Password</h2>
               <div>
@@ -168,17 +194,19 @@ const Login = () => {
                       <Alert severity="error">{forgeterror.forgetemail}</Alert>
                     }
               </div>
-              <CustomButton onClick={handleForgetSubmit} text="Send Link" variant="contained"/>
+                 <CustomButton onClick={handleForgetSubmit} text="Send Link" variant="contained"/>  
             </div>
+            </div>   
           </Box>
         </Modal>
+   
          <Box>
             <Grid container spacing={0}>
               <Grid item xs={6}>
                 <div className='loginbox'>
                   <div className='loginbox__inner'>
                     <SectionHeading style="auth_heading" text="Login to your account!"/>
-                    <div className='provider_login'>
+                    <div onClick={handleGoogleAuth} className='provider_login'>
                         <img src={GoogleSvg}/>
                         <span>Login with Google</span>
                     </div>

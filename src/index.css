@@ -113,6 +113,7 @@ ul,ol{
     font-weight: 600;
     line-height: normal;
     cursor: pointer;
+    text-transform: capitalize;
 }
 .pera{
     color: rgba(0, 0, 0, 0.50);
@@ -136,7 +137,7 @@ ul,ol{
 .showeye{
     position: absolute;
     top: 20px;
-    right: 100px;
+    right: 30px;
 }
 .buttongroup{
     display: flex;

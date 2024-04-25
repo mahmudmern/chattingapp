@@ -5,5 +5,4 @@ const RegiImg = ({source,alt,style}) => {
     <img className={style} src={source} alt={alt}/>
   )
 }
-
 export default RegiImg

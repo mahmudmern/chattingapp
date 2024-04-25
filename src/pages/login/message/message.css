@@ -1,0 +1,162 @@
+.msg_wrapper{
+    display: flex;
+    gap: 25px;
+}
+.msg_user_body{
+    width: 40%;
+    border: 1px solid grey;
+    height: 700px;
+
+}
+.list_heading{
+    padding: 15px 20px;
+    background-color: rgba(238, 130, 238, 0.699);
+    color: white;
+    font-size: 25px;
+    text-transform: capitalize;
+}
+.msg_user_wrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    padding: 15px;
+}
+.msg_user_item{
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    padding: 0 15px;
+    transition: all linear 0.3s;
+    cursor: pointer;
+    /* justify-content: space-between; */
+}
+.msg_user_item:hover{
+    background-color: rgba(0, 0, 0, 0.10);
+}
+.msg_user_item .userinfo{
+    display: flex;
+
+}
+.fds_check{
+    font-size: 20px;
+    background-color: pink;
+    text-transform: capitalize;
+    margin-top: 5px;
+}
+.msg_box_body{
+   width: 60%;
+   height: 700px;
+   background-color: transparent;
+   border: 1px solid grey;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+
+}
+.msg_box_heading{
+    background-color: pink;
+    color: white;
+    font-size: 20px;
+    text-transform: capitalize;
+    padding: 15px 30px;
+}
+.msg_main{
+    margin: 20px;
+    overflow-y: scroll;
+
+}
+.send_msg{
+    display: flex;
+    justify-content: flex-end;
+}
+.send_msg p{
+  background-color: blueviolet;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 15px;
+  display: inline-block;
+  margin-top: 10px;
+}
+.receive_msg p{
+    background-color: rgba(0, 0, 0, 0.236);
+    color: black;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+    display: inline-block;
+    margin-top: 15px;
+}
+.msg_footer{
+    background-color: rgba(0, 0, 0, 0.236);
+    width: 100%;
+    height: 60px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+
+}
+.msg_input{
+    width: 60%;
+    height: 100%;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 20px;
+
+}
+.send_btn{
+    height: 100%;
+    padding: 0 30px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+.send_btn svg{
+   font-size: 25px;
+   color: black;
+}
+.emoji_btn{
+    height: 100%;
+    padding: 5px 30px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+.emoji_btn svg{
+   font-size: 25px;
+   color: black;
+}
+.selectuser{
+    font-size: 20px;
+    background-color: pink;
+    text-transform: capitalize;
+    padding: 20px;
+}
+.emoji_wrapper{
+    position: absolute;
+    left: 20px;
+    bottom: 90px;
+}
+.scroll_box{
+    height: 600px;
+    overflow-y: scroll;
+    overflow: hidden;
+    
+    
+}

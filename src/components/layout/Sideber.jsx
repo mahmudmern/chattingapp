@@ -32,17 +32,15 @@ const style = {
 
 
 const Sideber = () => {
-   const data = useSelector((state) => state.loginuserdata.value)
-   // console.log(data.email);
-   // console.log(data.displayName);
-   // console.log(data.photoURL);
 
 
    const navigate = useNavigate();
    const auth = getAuth();
    const dispatch = useDispatch();
-
-
+   const data = useSelector((state) => state.loginuserdata.value)
+   // console.log(data.email);
+   // console.log(data.displayName);
+   // console.log(data.photoURL); 
    const [open, setOpen] = React.useState(false);
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);

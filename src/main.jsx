@@ -5,7 +5,6 @@ import './index.css'
 import firebaseConfig from './config/FirebaseConfig.jsx'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-//import { store } from './app/store'
 import { store } from './store.js'
 import { Provider } from 'react-redux'
 

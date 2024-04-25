@@ -16,7 +16,7 @@ const Friends = () => {
     onValue(friendRef, (snapshot) => {
     let arr = []
     snapshot.forEach((item) =>{
-      if(data.uid == item.val().whoreciveid){
+      if(data.uid == item.val().whoreciveid || data.uid == item.val().whosendid){
         arr.push({...item.val(),id:item.key})
       }
       
@@ -54,7 +54,7 @@ const Friends = () => {
     <>
     <GroupCard cardtitle="friends">
         <div className='usermainbox'>
-        {friendList && friendList.map((item,index)=>(
+        {friendList && friendList.length > 0 ? friendList.map((item,index)=>(
               <div key={index} className='useritem'>
               <div className='userimgbox'>
                 <Images source={data.uid == item.whosendid ? item.whoreceivephoto : item.whosendphoto} alt="img"/>
@@ -66,7 +66,7 @@ const Friends = () => {
                     <h3>{item.whoreceivename}</h3>
                     :
                     <h3>{item.whosendname}</h3>
-                  }
+                    }
                    <p>mern devoloper</p>
                 </div>
                 <button onClick={()=>handleBlock(item)} className='addbutton'>
@@ -74,11 +74,15 @@ const Friends = () => {
                 </button>
               </div>
             </div>  
-            ))}
+            ))
+            :
+            <h1>no friends aviable</h1>
+          }
         </div>
       </GroupCard>
     </>
   )
 }
+
 
 export default Friends

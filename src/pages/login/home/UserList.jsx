@@ -12,6 +12,7 @@ const UserList = () => {
   const data = useSelector((state) => state.loginuserdata.value)
   const [fRequest, setfRequest] = useState([])
   const [friendList, setFriendList] = useState([])
+  const [requestCheck, setRequestCheck] = useState ([])
 
   //console.log(data);
   
@@ -69,17 +70,25 @@ useEffect (() =>{
   const fRequestRef = ref(db, 'frequestinfo');
   onValue(fRequestRef, (snapshot) => {
   let arr = []
+  let abc = []
   snapshot.forEach((item) =>{
+   if(item.val().receiverid == data.uid){
+    abc.push(item.val().senderid + item.val().receiverid)
+   }
+    
     if(item.val().senderid == data.uid){ 
       arr.push(item.val().receiverid + item.val().senderid)
     }
     
   })
   setfRequest(arr)
+  setRequestCheck(abc)
 });
 
 },[])
 
+//console.log(fRequest);
+//console.log(requestCheck);
 
 //friend data
 useEffect(() =>{
@@ -96,7 +105,6 @@ useEffect(() =>{
 })
 },[])
 
-  
   // useEffect (() =>{
   //   const fRequestRef = ref(db, 'frequestinfo');
   //   onValue(fRequestRef, (snapshot) => {
@@ -160,8 +168,12 @@ useEffect(() =>{
                       ?
                       <button className='addbutton'>friend</button>
                       :
+                       requestCheck.includes(item.uid + data.uid)
+                      ?
+                      <button className='addbutton'>conform</button>
+                      :
                       <button onClick={()=>handleFRequest(item)} className='addbutton'>
-                        add
+                        add   
                       </button>
                 } 
              </div>
